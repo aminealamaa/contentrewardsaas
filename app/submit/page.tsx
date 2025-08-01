@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Button } from '@/components/ui/Button'
 import { Input } from '@/components/ui/Input'
@@ -18,7 +18,7 @@ interface Campaign {
   remaining_budget: number
 }
 
-export default function SubmitPage() {
+function SubmitPageContent() {
   const [campaign, setCampaign] = useState<Campaign | null>(null)
   const [platform, setPlatform] = useState('')
   const [videoLink, setVideoLink] = useState('')
@@ -318,5 +318,13 @@ export default function SubmitPage() {
         </div>
       </div>
     </div>
+  )
+}
+
+export default function SubmitPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <SubmitPageContent />
+    </Suspense>
   )
 } 
