@@ -80,12 +80,20 @@ export default function DashboardLayout({
                 )}
                 
                 {userRole === 'clipper' && (
-                  <Link href="/dashboard/clipper">
-                    <Button variant="ghost" size="sm">
-                      <User className="h-4 w-4 mr-2" />
-                      My Submissions
-                    </Button>
-                  </Link>
+                  <>
+                    <Link href="/dashboard/clipper">
+                      <Button variant="ghost" size="sm">
+                        <User className="h-4 w-4 mr-2" />
+                        My Submissions
+                      </Button>
+                    </Link>
+                    <Link href="/explore">
+                      <Button variant="ghost" size="sm">
+                        <Video className="h-4 w-4 mr-2" />
+                        Explore Campaigns
+                      </Button>
+                    </Link>
+                  </>
                 )}
                 
                 {userRole === 'admin' && (

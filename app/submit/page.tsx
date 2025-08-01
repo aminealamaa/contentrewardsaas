@@ -130,9 +130,6 @@ export default function SubmitPage() {
       }
 
       setSuccess(true)
-      setTimeout(() => {
-        router.push('/dashboard/clipper')
-      }, 2000)
     } catch (error: any) {
       console.error('Submit error:', error)
       setError(error.message || 'Failed to submit work')
@@ -183,7 +180,15 @@ export default function SubmitPage() {
                 <Video className="h-8 w-8 text-green-600" />
               </div>
               <h3 className="text-lg font-semibold text-gray-900 mb-2">Submission Successful!</h3>
-              <p className="text-gray-600">Your work has been submitted for review.</p>
+              <p className="text-gray-600 mb-6">Your work has been submitted for review. Keep earning by exploring more campaigns!</p>
+              <div className="flex justify-center space-x-4">
+                <Button onClick={() => router.push('/dashboard/clipper')} variant="outline">
+                  View My Submissions
+                </Button>
+                <Button onClick={() => router.push('/explore')}>
+                  Explore More Campaigns
+                </Button>
+              </div>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-6">

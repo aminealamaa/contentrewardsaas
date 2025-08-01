@@ -19,6 +19,7 @@ CREATE TABLE campaigns (
   title TEXT NOT NULL,
   description TEXT,
   video_url TEXT NOT NULL,
+  original_video_path TEXT, -- Path to original video file in Supabase Storage
   reward_per_1000 DECIMAL(10,2) NOT NULL,
   budget DECIMAL(10,2) NOT NULL,
   remaining_budget DECIMAL(10,2) NOT NULL,

@@ -29,13 +29,15 @@ export default function ClipperDashboard() {
     totalEarnings: 0,
     pendingEarnings: 0,
     totalSubmissions: 0,
-    approvedSubmissions: 0
+    approvedSubmissions: 0,
+    availableCampaigns: 0
   })
   
   const { user } = useAuth()
 
   useEffect(() => {
     fetchSubmissions()
+    fetchAvailableCampaigns()
   }, [])
 
   const fetchSubmissions = async () => {
@@ -62,16 +64,35 @@ export default function ClipperDashboard() {
       
       const approvedSubmissions = data?.filter(sub => sub.status === 'approved').length || 0
       
-      setStats({
+      setStats(prevStats => ({
+        ...prevStats,
         totalEarnings,
         pendingEarnings,
         totalSubmissions: data?.length || 0,
         approvedSubmissions
-      })
+      }))
     } catch (error) {
       console.error('Error fetching submissions:', error)
     } finally {
       setLoading(false)
+    }
+  }
+
+  const fetchAvailableCampaigns = async () => {
+    try {
+      const { data, error } = await supabase
+        .from('campaigns')
+        .select('id')
+        .eq('status', 'active')
+
+      if (error) throw error
+      
+      setStats(prevStats => ({
+        ...prevStats,
+        availableCampaigns: data?.length || 0
+      }))
+    } catch (error) {
+      console.error('Error fetching available campaigns:', error)
     }
   }
 
@@ -169,6 +190,21 @@ export default function ClipperDashboard() {
             </div>
           </div>
         </div>
+      </div>
+
+      {/* Action Button */}
+      <div className="mb-6 flex justify-between items-center">
+        <div className="text-sm text-gray-600">
+          {stats.availableCampaigns > 0 && (
+            <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full">
+              {stats.availableCampaigns} campaigns available
+            </span>
+          )}
+        </div>
+        <Button onClick={() => window.location.href = '/explore'} className="flex items-center">
+          <Video className="h-4 w-4 mr-2" />
+          Explore New Campaigns
+        </Button>
       </div>
 
       {/* Submissions Table */}
